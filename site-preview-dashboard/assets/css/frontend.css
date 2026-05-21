@@ -49,14 +49,9 @@
 	outline-offset: 2px;
 }
 
-/*
- * Height driven by CSS custom property injected via wp_add_inline_style().
- * Value: --spd-card-img-height set from spd_card_height option (default 200px).
- * object-fit: cover fills the fixed height, object-position: top shows the top of the page.
- */
 .spd-card img {
 	width: 100%;
-	height: var(--spd-card-img-height, 200px);
+	aspect-ratio: 1280 / 900;
 	object-fit: cover;
 	object-position: top;
 	display: block;
@@ -99,19 +94,16 @@
 /* ── Popup window ─────────────────────────────────────────────────────────── */
 
 #spd-popup .spd-popup-window {
+	position: absolute;
+	inset: 40px;
 	background: #fff;
 	border-radius: 8px;
-	width: calc(100vw - 32px);
-	height: calc(100vh - 32px);
-	max-width: calc(100vw - 32px);
-	max-height: calc(100vh - 32px);
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 	transform: scale(0.97);
 	transition: transform 0.22s ease;
 	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
-	box-sizing: border-box;
 }
 
 #spd-popup.spd-open .spd-popup-window {
@@ -190,10 +182,7 @@
 
 @media (max-width: 600px) {
 	#spd-popup .spd-popup-window {
-		width: 100vw;
-		height: 100vh;
-		max-width: 100vw;
-		max-height: 100vh;
+		inset: 0;
 		border-radius: 0;
 	}
 }

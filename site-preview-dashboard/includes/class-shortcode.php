@@ -20,7 +20,6 @@ class SPD_Shortcode {
 
 	private function enqueue_assets(): void {
 		$sites        = get_option( 'spd_sites', array() );
-		$card_height  = absint( get_option( 'spd_card_height', 200 ) );
 		$sites_for_js = array();
 
 		foreach ( $sites as $site_id => $site ) {
@@ -35,13 +34,6 @@ class SPD_Shortcode {
 			SPD_URL . 'assets/css/frontend.css',
 			array(),
 			SPD_VERSION
-		);
-
-		// Industry-standard: inject dynamic values as CSS custom properties via wp_add_inline_style().
-		// Appended directly after the stylesheet in <head>, always reflects current DB value.
-		wp_add_inline_style(
-			'spd-frontend',
-			':root { --spd-card-img-height: ' . $card_height . 'px; }'
 		);
 
 		wp_enqueue_script(
