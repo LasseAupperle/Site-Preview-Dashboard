@@ -50,12 +50,16 @@ class SPD_Admin {
 			wp_die( 'Unauthorized' );
 		}
 
-		$api_key = sanitize_text_field( wp_unslash( $_POST['spd_api_key'] ?? '' ) );
-		$columns = absint( $_POST['spd_columns'] ?? 3 );
-		$columns = in_array( $columns, array( 2, 3, 4 ), true ) ? $columns : 3;
+		$api_key     = sanitize_text_field( wp_unslash( $_POST['spd_api_key'] ?? '' ) );
+		$columns     = absint( $_POST['spd_columns'] ?? 3 );
+		$columns     = in_array( $columns, array( 2, 3, 4 ), true ) ? $columns : 3;
+		$card_height = absint( $_POST['spd_card_height'] ?? 200 );
+		$valid_heights = array( 130, 200, 280, 380 );
+		$card_height = in_array( $card_height, $valid_heights, true ) ? $card_height : 200;
 
 		update_option( 'spd_api_key', $api_key );
 		update_option( 'spd_columns', $columns );
+		update_option( 'spd_card_height', $card_height );
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'site-previews', 'spd_saved' => '1' ), admin_url( 'admin.php' ) ) );
 		exit;
@@ -204,6 +208,7 @@ class SPD_Admin {
 		$sites       = get_option( 'spd_sites', array() );
 		$api_key     = get_option( 'spd_api_key', '' );
 		$columns     = get_option( 'spd_columns', 3 );
+		$card_height = (int) get_option( 'spd_card_height', 200 );
 		$count       = SPD_Counter::get_count();
 		$month_label = date_i18n( 'F Y' );
 		$bar_pct     = min( 100, $count );
@@ -257,6 +262,26 @@ class SPD_Admin {
 										</option>
 									<?php endforeach; ?>
 								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="spd_card_height">Grootte preview-kaartjes</label></th>
+							<td>
+								<select id="spd_card_height" name="spd_card_height">
+									<?php
+									$height_options = array(
+										130 => 'Klein',
+										200 => 'Normaal',
+										280 => 'Groot',
+										380 => 'Extra groot',
+									);
+									foreach ( $height_options as $px => $label ) : ?>
+										<option value="<?php echo esc_attr( $px ); ?>" <?php selected( $card_height, $px ); ?>>
+											<?php echo esc_html( $label ); ?>
+										</option>
+									<?php endforeach; ?>
+								</select>
+								<p class="description">Bepaalt de hoogte van de screenshot-afbeeldingen in het grid.</p>
 							</td>
 						</tr>
 					</table>

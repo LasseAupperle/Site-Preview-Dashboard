@@ -49,9 +49,13 @@
 	outline-offset: 2px;
 }
 
+/* Height is injected inline by PHP (spd_card_height setting).
+   object-fit: cover ensures the image fills the fixed height cleanly. */
 .spd-card img {
 	width: 100%;
-	height: auto;
+	height: 200px; /* fallback — overridden by inline style from PHP */
+	object-fit: cover;
+	object-position: top;
 	display: block;
 }
 
@@ -77,7 +81,7 @@
 	pointer-events: none;
 	transition: opacity 0.25s ease;
 	z-index: 99999;
-	padding: 20px;
+	padding: 16px;
 	box-sizing: border-box;
 }
 
@@ -91,15 +95,16 @@
 .spd-popup-window {
 	background: #fff;
 	border-radius: 10px;
-	width: 90vw;
-	max-width: 1200px;
-	max-height: 95vh;
+	width: 96vw;
+	height: 96vh;
+	max-width: 96vw;
+	max-height: 96vh;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	transform: scale(0.95);
+	transform: scale(0.96);
 	transition: transform 0.25s ease;
-	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .spd-popup-overlay.spd-open .spd-popup-window {
@@ -112,7 +117,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0.85rem 1.25rem;
+	padding: 0.7rem 1.1rem;
 	border-bottom: 1px solid #e0e0e0;
 	gap: 12px;
 	flex-shrink: 0;
@@ -161,14 +166,30 @@
 	color: #d63638;
 }
 
-/* ── iframe ──────────────────────────────────────────────────────────────── */
+/* ── iframe — fills all remaining height after header ────────────────────── */
 
 #spd-popup-iframe {
 	border: none;
 	flex: 1;
-	height: 80vh;
-	display: block;
+	min-height: 0;   /* required: flex child must shrink below content size */
 	width: 100%;
+	display: block;
+}
+
+/* ── Mobile: true fullscreen popup ──────────────────────────────────────── */
+
+@media (max-width: 600px) {
+	.spd-popup-overlay {
+		padding: 0;
+	}
+
+	.spd-popup-window {
+		width: 100vw;
+		height: 100vh;
+		max-width: 100vw;
+		max-height: 100vh;
+		border-radius: 0;
+	}
 }
 
 /* ── Empty state ─────────────────────────────────────────────────────────── */

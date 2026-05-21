@@ -47,9 +47,10 @@ class SPD_Shortcode {
 	}
 
 	public function render(): string {
-		$sites      = get_option( 'spd_sites', array() );
-		$columns    = get_option( 'spd_columns', 3 );
-		$upload_dir = wp_upload_dir();
+		$sites       = get_option( 'spd_sites', array() );
+		$columns     = get_option( 'spd_columns', 3 );
+		$card_height = (int) get_option( 'spd_card_height', 200 );
+		$upload_dir  = wp_upload_dir();
 
 		// Filter: active sites with an existing screenshot file.
 		$visible = array();
@@ -78,6 +79,7 @@ class SPD_Shortcode {
 
 		ob_start();
 		?>
+		<style>.spd-card img { height: <?php echo absint( $card_height ); ?>px; }</style>
 		<div class="spd-grid spd-cols-<?php echo esc_attr( $columns ); ?>">
 			<?php foreach ( $visible as $site_id => $site ) : ?>
 			<div class="spd-card"
