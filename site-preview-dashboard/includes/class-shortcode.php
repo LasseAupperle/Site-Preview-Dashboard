@@ -19,8 +19,10 @@ class SPD_Shortcode {
 	}
 
 	private function enqueue_assets(): void {
-		$sites       = get_option( 'spd_sites', array() );
+		$sites        = get_option( 'spd_sites', array() );
+		$card_height  = absint( get_option( 'spd_card_height', 200 ) );
 		$sites_for_js = array();
+
 		foreach ( $sites as $site_id => $site ) {
 			$sites_for_js[ $site_id ] = array(
 				'name' => $site['name'],
@@ -34,6 +36,14 @@ class SPD_Shortcode {
 			array(),
 			SPD_VERSION
 		);
+
+		// Industry-standard: inject dynamic values as CSS custom properties via wp_add_inline_style().
+		// Appended directly after the stylesheet in <head>, always reflects current DB value.
+		wp_add_inline_style(
+			'spd-frontend',
+			':root { --spd-card-img-height: ' . $card_height . 'px; }'
+		);
+
 		wp_enqueue_script(
 			'spd-frontend',
 			SPD_URL . 'assets/js/frontend.js',
@@ -47,12 +57,10 @@ class SPD_Shortcode {
 	}
 
 	public function render(): string {
-		$sites       = get_option( 'spd_sites', array() );
-		$columns     = get_option( 'spd_columns', 3 );
-		$card_height = (int) get_option( 'spd_card_height', 200 );
-		$upload_dir  = wp_upload_dir();
+		$sites      = get_option( 'spd_sites', array() );
+		$columns    = get_option( 'spd_columns', 3 );
+		$upload_dir = wp_upload_dir();
 
-		// Filter: active sites with an existing screenshot file.
 		$visible = array();
 		foreach ( $sites as $site_id => $site ) {
 			if ( empty( $site['active'] ) ) {
@@ -69,7 +77,6 @@ class SPD_Shortcode {
 			return '<p class="spd-empty">Geen site-previews beschikbaar. Voeg sites toe en maak een screenshot via het beheerderspaneel.</p>';
 		}
 
-		// Sort by order ASC.
 		uasort( $visible, function ( $a, $b ) {
 			return $a['order'] <=> $b['order'];
 		} );
@@ -79,7 +86,6 @@ class SPD_Shortcode {
 
 		ob_start();
 		?>
-		<style>.spd-card img { height: <?php echo absint( $card_height ); ?>px; }</style>
 		<div class="spd-grid spd-cols-<?php echo esc_attr( $columns ); ?>">
 			<?php foreach ( $visible as $site_id => $site ) : ?>
 			<div class="spd-card"

@@ -127,7 +127,8 @@ class SPD_Admin {
 				'timestamp'    => $sites[ $site_id ]['last_updated'],
 			) );
 		} else {
-			wp_send_json_error( 'Screenshot mislukt. Controleer de API-sleutel of probeer het opnieuw.' );
+			$detail = SPD_Screenshot::$last_error ?: 'Onbekende fout.';
+			wp_send_json_error( 'Screenshot mislukt: ' . $detail );
 		}
 	}
 

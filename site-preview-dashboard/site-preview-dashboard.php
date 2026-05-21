@@ -3,7 +3,7 @@
  * Plugin Name: Site Preview Dashboard
  * Plugin URI:  https://github.com/LasseAupperle/Site-Preview-Dashboard
  * Description: Display a visual grid of screenshot previews of your managed WordPress sites.
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      LaunchUp
  * License:     GPL-2.0-or-later
  * Text Domain: site-preview-dashboard
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) or exit;
 
-define( 'SPD_VERSION', '1.1.0' );
+define( 'SPD_VERSION', '1.2.0' );
 define( 'SPD_PATH',    plugin_dir_path( __FILE__ ) );
 define( 'SPD_URL',     plugin_dir_url( __FILE__ ) );
 define( 'SPD_CAP',     'manage_options' );
