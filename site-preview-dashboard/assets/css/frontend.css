@@ -1,0 +1,179 @@
+/* Site Preview Dashboard — Frontend Styles */
+
+/* ── Grid ────────────────────────────────────────────────────────────────── */
+
+.spd-grid {
+	display: grid;
+	gap: 1.5rem;
+}
+
+.spd-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.spd-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.spd-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 768px) {
+	.spd-cols-3,
+	.spd-cols-4 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 480px) {
+	.spd-cols-2,
+	.spd-cols-3,
+	.spd-cols-4 {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+
+.spd-card {
+	cursor: pointer;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	background: #fff;
+	outline: none;
+}
+
+.spd-card:hover,
+.spd-card:focus {
+	transform: scale(1.03);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.spd-card:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.spd-card img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.spd-label {
+	display: block;
+	padding: 0.6rem 0.75rem;
+	font-weight: 600;
+	text-align: center;
+	font-size: 0.9rem;
+	color: #1e1e1e;
+}
+
+/* ── Popup overlay ───────────────────────────────────────────────────────── */
+
+.spd-popup-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.72);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease;
+	z-index: 99999;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.spd-popup-overlay.spd-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* ── Popup window ────────────────────────────────────────────────────────── */
+
+.spd-popup-window {
+	background: #fff;
+	border-radius: 10px;
+	width: 90vw;
+	max-width: 1200px;
+	max-height: 95vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	transform: scale(0.95);
+	transition: transform 0.25s ease;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.spd-popup-overlay.spd-open .spd-popup-window {
+	transform: scale(1);
+}
+
+/* ── Popup header ────────────────────────────────────────────────────────── */
+
+.spd-popup-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.85rem 1.25rem;
+	border-bottom: 1px solid #e0e0e0;
+	gap: 12px;
+	flex-shrink: 0;
+}
+
+.spd-popup-site-name {
+	font-weight: 700;
+	font-size: 1rem;
+	color: #1e1e1e;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.spd-popup-controls {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+}
+
+.spd-popup-visit-btn {
+	font-size: 0.85rem;
+	font-weight: 600;
+	text-decoration: none;
+	color: #2271b1;
+	white-space: nowrap;
+}
+
+.spd-popup-visit-btn:hover {
+	text-decoration: underline;
+}
+
+.spd-popup-close {
+	background: none;
+	border: none;
+	font-size: 1.6rem;
+	line-height: 1;
+	cursor: pointer;
+	color: #646970;
+	padding: 0 4px;
+	transition: color 0.15s ease;
+}
+
+.spd-popup-close:hover {
+	color: #d63638;
+}
+
+/* ── iframe ──────────────────────────────────────────────────────────────── */
+
+#spd-popup-iframe {
+	border: none;
+	flex: 1;
+	height: 80vh;
+	display: block;
+	width: 100%;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+
+.spd-empty {
+	color: #646970;
+	font-style: italic;
+}
