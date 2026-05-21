@@ -188,6 +188,9 @@ class SPD_Admin {
 
 		$sites = get_option( 'spd_sites', array() );
 		foreach ( $order as $position => $site_id ) {
+			if ( ! is_string( $site_id ) ) {
+				continue;
+			}
 			$site_id = sanitize_text_field( $site_id );
 			if ( isset( $sites[ $site_id ] ) ) {
 				$sites[ $site_id ]['order'] = (int) $position;
@@ -351,7 +354,7 @@ class SPD_Admin {
 							      title="<?php echo esc_attr( $active_label ); ?>"></span>
 							<span class="spd-status-text"><?php echo esc_html( $active_label ); ?></span>
 						</td>
-						<td class="spd-last-updated"><?php echo $last_updated; ?></td>
+						<td class="spd-last-updated"><?php echo esc_html( $last_updated ); ?></td>
 						<td class="spd-actions">
 							<button class="button spd-btn-refresh"
 							        data-site-id="<?php echo esc_attr( $site_id ); ?>">Vernieuwen</button>

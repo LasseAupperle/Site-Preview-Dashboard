@@ -49,10 +49,20 @@ class SPD_Screenshot {
 			return false;
 		}
 
-		// Prevent directory listing.
+		// Prevent directory listing and PHP execution.
 		$index = $previews_dir . 'index.php';
 		if ( ! file_exists( $index ) ) {
 			file_put_contents( $index, '<?php // Silence is golden.' );
+		}
+		$htaccess = $previews_dir . '.htaccess';
+		if ( ! file_exists( $htaccess ) ) {
+			file_put_contents( $htaccess, "<Files \"*.php\">\n  Require all denied\n</Files>" );
+		}
+
+		// Validate response is actually an image before writing.
+		$content_type = wp_remote_retrieve_header( $response, 'content-type' );
+		if ( strpos( $content_type, 'image/' ) === false ) {
+			return false;
 		}
 
 		$file_path = $previews_dir . "site-{$site_id}.jpg";
