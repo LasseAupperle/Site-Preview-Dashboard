@@ -56,12 +56,16 @@
 	closeBtn.addEventListener( 'click', closePopup );
 
 	// ── Click outside popup window ─────────────────────────────────────────────
+	// Overlay click always closes; popup window stops propagation so inner clicks don't bubble up.
 
-	overlay.addEventListener( 'click', function ( e ) {
-		if ( e.target === overlay ) {
-			closePopup();
-		}
-	} );
+	overlay.addEventListener( 'click', closePopup );
+
+	var popupWindow = overlay.querySelector( '.spd-popup-window' );
+	if ( popupWindow ) {
+		popupWindow.addEventListener( 'click', function ( e ) {
+			e.stopPropagation();
+		} );
+	}
 
 	// ── ESC key ────────────────────────────────────────────────────────────────
 
