@@ -22,10 +22,9 @@ class SPD_Screenshot {
 				'viewport_height'     => 900,
 				'format'              => 'jpg',
 				'image_quality'       => 85,
-				'block_ads'           => 'true',
-				'block_trackers'      => 'true',
-				'hide_cookie_banners' => 'true',
-				'delay'               => 2,
+				'block_ads'      => 'true',
+				'block_trackers' => 'true',
+				'delay'          => 2,
 			),
 			'https://api.screenshotone.com/take'
 		);
